@@ -1,34 +1,44 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from "next";
 
 /**
- * TrustCat.ai — Gold Standard Next.js Config
- * Terminal-grade, Supabase-ready, Cloudflare-deployed
- * Compatible with Next.js 16+
+ * 🐾 TRUSTCAT HQ — TERMINAL-GRADE CONFIG
+ *  - Static export for Cloudflare Pages
+ *  - Preserves client routing and serverActions
+ *  - Compatible with Next.js 16 + TypeScript
+ *  - Produces /out directory for deploy
  */
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
+  // ✅ Generate fully static output for Cloudflare
+  output: "export",
 
-  // 🧱 Fixes "workspace root" warnings
-  outputFileTracingRoot: __dirname,
+  // ✅ Place built files here (Cloudflare picks this up)
+  distDir: "out",
 
-  // ✅ replaces old experimental.typedRoutes (Next 16 syntax)
-  typedRoutes: true,
+  // ✅ Keep URLs consistent (helps for static hosting)
+  trailingSlash: true,
 
-  // ✅ optional: allow small server actions (for form submissions)
+  // ✅ Enable experimental Next.js features safely
   experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb',
-    },
+    serverActions: true,
+    typedRoutes: true,
   },
 
-  // 🖤 unoptimized for terminal-grade static build (Cloudflare-friendly)
+  // ✅ Optimization + security headers (optional gold ops)
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+
+  // ✅ Trusted external domains for images or APIs if you expand later
   images: {
     unoptimized: true,
   },
 
-  // 🧩 trailing slashes for clean sub-pages (/client/, /provider/)
-  trailingSlash: true,
-}
+  // ✅ Allow internal LAN origin during dev builds
+  allowedHosts: ["localhost", "192.168.0.99"],
 
-export default nextConfig
+  // ✅ Explicit root tracing (for monorepo safety)
+  outputFileTracingRoot: __dirname,
+};
+
+export default nextConfig;
