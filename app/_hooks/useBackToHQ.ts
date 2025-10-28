@@ -1,14 +1,19 @@
-'use client'
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+"use client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export function useBackToHQ(path: string = '/') {
-  const router = useRouter()
+export default function useBackToHQ(path: string = "/") {
+  const router = useRouter();
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'b' || e.key === 'B') router.push(path as unknown as Route)
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [router, path])
+      // terminal-grade back nav
+      if (e.key === "b" || e.key === "B") {
+        router.push(path as any); // ✅ suppress typed-route mismatch
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [path, router]);
 }
