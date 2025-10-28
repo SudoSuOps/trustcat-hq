@@ -1,6 +1,6 @@
 'use client'
 import Footer from '../_components/Footer'
-import { useBackToHQ } from '../_hooks/useBackToHQ'
+import useBackToHQ from '../_hooks/useBackToHQ'
 
 export default function Page() {
   useBackToHQ('/')

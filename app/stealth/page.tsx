@@ -1,6 +1,6 @@
 'use client'
 import Footer from '../_components/Footer'
-import { useBackToHQ } from '../_hooks/useBackToHQ'
+import useBackToHQ from '../_hooks/useBackToHQ'
 import { useEffect, useState } from 'react'
 
 type Init = { status: string; mode: string; aesKey: string; timestamp: string }
