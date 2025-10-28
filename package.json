@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3000",
-    "build": "next build --webpack && npx next export ",
-    "start": "npx serve outt",
-    "lint": "next lintt"
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.76.1",
