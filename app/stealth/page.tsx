@@ -1,34 +1,35 @@
 'use client'
-import Footer from '../_components/Footer'
-import useBackToHQ from '../_hooks/useBackToHQ'
 import { useEffect, useState } from 'react'
+import Footer from '../_components/Footer'
 
-type Init = { status: string; mode: string; aesKey: string; timestamp: string }
+type Init = {
+  status: string
+  message?: string
+}
 
 export default function Page() {
-  useBackToHQ('/')
-
   const [init, setInit] = useState<Init | null>(null)
   const [err, setErr] = useState<string | null>(null)
 
   useEffect(() => {
     fetch('/api/stealth/init')
-      .then(r => r.json())
-      .then(setInit)
-      .catch(e => setErr(String(e)))
+      .then(r => r.json() as Promise<Init>) // 🟩 Explicitly type the response
+      .then((data) => setInit(data))        // ✅ Type-safe
+      .catch((e) => setErr(String(e)))
   }, [])
 
   return (
-    <main className="min-h-screen bg-black text-white font-mono p-8">
-      <p className="text-[#00FF00]">$ stealth --init</p>
-      {!init && !err && <p className="mt-2 opacity-80">initializing stealth session…</p>}
-      {err && <p className="mt-2 text-red-400">error: {err}</p>}
-      {init && (
-        <pre className="mt-3 text-xs">
-{JSON.stringify(init, null, 2)}
+    <main className="flex flex-col items-center justify-center min-h-screen text-center text-green-400 bg-black">
+      <h1 className="text-4xl font-bold mb-6">🕶️ Stealth Ops</h1>
+      {err ? (
+        <p className="text-red-400">Error: {err}</p>
+      ) : init ? (
+        <pre className="text-left text-gray-300 p-4 bg-[#111] rounded-xl">
+          {JSON.stringify(init, null, 2)}
         </pre>
+      ) : (
+        <p className="text-gray-500">Initializing stealth mode...</p>
       )}
-      <p className="mt-4 text-[#00FF00]">Press [B] to go back</p>
       <Footer />
     </main>
   )

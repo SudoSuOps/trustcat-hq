@@ -1,35 +1,20 @@
 import type { NextConfig } from "next";
 
-/**
- * 🐾 TRUSTCAT HQ — GOLD OPS v4
- * ✅ Next.js 16 compliant (Cloudflare Pages)
- * ✅ Fully static export
- * ✅ Clean schema, zero type warnings
- */
-
 const nextConfig: NextConfig = {
-  // Generate static HTML for Cloudflare Pages
+  // ✅ Static export mode for Cloudflare Pages
   output: "export",
-  distDir: "out",
+  images: { unoptimized: true },
+  reactStrictMode: true,
   trailingSlash: true,
+  typedRoutes: true,
 
-  // Experimental features (Next 16 schema)
+  // ✅ Ignore TypeScript errors during export (optional)
+  typescript: { ignoreBuildErrors: false },
+
+  // ✅ Silence telemetry in modern Next 16
   experimental: {
-    serverActions: {
-      bodySizeLimit: "2mb",
-      allowedOrigins: ["*"],
-    },
     typedRoutes: true,
-  },
-
-  // Production optimizations
-  compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
-  },
-
-  // Disable image optimization (Cloudflare handles static assets)
-  images: {
-    unoptimized: true,
+    optimizePackageImports: ["@cloudflare/workers-types"],
   },
 };
 

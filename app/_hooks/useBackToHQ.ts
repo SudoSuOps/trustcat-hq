@@ -1,19 +1,23 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+'use client'
 
-export default function useBackToHQ(path: string = "/") {
-  const router = useRouter();
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+
+// ✅ Explicit DOM event typing for hybrid (SSR + client) build
+type BrowserKeyboardEvent = globalThis.KeyboardEvent
+
+export default function useBackToHQ(path: string) {
+  const router = useRouter()
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      // terminal-grade back nav
-      if (e.key === "b" || e.key === "B") {
-        router.push(path as any); // ✅ suppress typed-route mismatch
-      }
-    };
+    if (typeof window === 'undefined') return
 
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [path, router]);
+    const onKey = (e: BrowserKeyboardEvent) => {
+      const key = (e as BrowserKeyboardEvent).key?.toLowerCase?.()
+      if (key === 'b') router.push(path as any)
+    }
+
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [path, router])
 }

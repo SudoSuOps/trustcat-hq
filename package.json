@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
-    "build": "next build --webpack",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "next dev --port 3000",
+    "build": "next build --webpack && npx next export ",
+    "start": "npx serve outt",
+    "lint": "next lintt"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.76.1",
@@ -16,8 +16,9 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251014.0",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^20.19.23",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
