@@ -1,51 +1,55 @@
 "use client";
-
 import { useEffect, useState } from "react";
 
-export default function StealthPage() {
-  const [status, setStatus] = useState("⏳ Initializing TrustCat AI Ops …");
+export default function StealthOpsPage() {
   const [data, setData] = useState<any>(null);
+  const [error, setError] = useState(false);
+  const [uptime, setUptime] = useState(0);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch("https://stealth.trustcat.ai/api/stealth/init");
-        const json = await res.json();
-        setData(json);
-        setStatus("🟢 Stealth Ops Active — All Systems Nominal");
-      } catch (err) {
-        console.error(err);
-        setStatus("🔴 Connection Error — Stealth Edge Unreachable");
-      }
-    };
-    load();
+    fetch("https://stealth.trustcat.ai/api/stealth/init")
+      .then((res) => res.json())
+      .then((d) => setData(d))
+      .catch(() => setError(true));
+
+    const interval = setInterval(() => setUptime((u) => u + 1), 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <main className="min-h-screen bg-black text-[#16f2a5] font-mono p-8 terminal-scanlines relative">
       <section className="text-center">
-        <h1 className="text-2xl mb-2">🐾 TrustCat Stealth Ops</h1>
+        <h1 className="text-2xl text-[#16f2a5] mb-2">🐾 TrustCat Stealth Ops</h1>
         <p className="text-sm text-[#FFD700] mb-6">
           Proof of Compute • Chainlink Verified • Cloudflare Secured
         </p>
-        <pre className="text-md mb-4">{status}</pre>
 
-        {data && (
-          <div className="text-left inline-block bg-[#0c0c0c] p-4 rounded-lg border border-[#222] shadow-lg">
-            <p>node: {data.node}</p>
-            <p>zone: {data.cloudflare_zone}</p>
-            <p>timestamp: {data.timestamp}</p>
-            <p>message: {data.message}</p>
-          </div>
+        {!error ? (
+          <>
+            {data ? (
+              <>
+                <p className="text-[#00ff88] mb-3">
+                  🟢 {data.message} ({data.node})
+                </p>
+                <p className="text-xs text-gray-400">
+                  uptime: {uptime}s | zone: {data.cloudflare_zone}
+                </p>
+              </>
+            ) : (
+              <p className="text-[#FFD700]">⏳ Initializing TrustCat AI Ops …</p>
+            )}
+          </>
+        ) : (
+          <p className="text-red-400">🔴 Connection Error — Stealth Edge Unreachable</p>
         )}
 
-        <div className="mt-8 text-xs text-gray-400">
-          <p>Worker Endpoint → stealth.trustcat.ai/api/stealth/init</p>
+        <div className="mt-6 text-xs text-gray-400">
+          <p>Worker → stealth.trustcat.ai/api/stealth/init</p>
           <p>ENS Mirror → stealth.trustcat.eth.limo</p>
           <p>Gateway → eth.limo</p>
         </div>
 
-        <footer className="mt-12 text-center text-[#FFD700]">
+        <footer className="mt-10 text-[#FFD700]">
           <pre>
 {String.raw`
    ( o_o )  trench online
