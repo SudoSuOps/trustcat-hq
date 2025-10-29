@@ -1,14 +1,19 @@
+# 🐾 TrustCat Stealth Ops — Cloudflare Worker Config
 name = "stealth-ops"
 main = "src/index.ts"
 compatibility_date = "2025-10-29"
-workers_dev = false
 account_id = "6abec5e82728df0610a98be9364918e4"
+workers_dev = false
 
-# Route binding for your custom domain
+# ✅ Attach Worker to production route
 routes = [
   { pattern = "stealth.trustcat.ai/*", zone_id = "69f5e20d2551fcb464a241f6b8e0715f" }
 ]
 
+# ✅ Required for Pages builds — tells Cloudflare where your static site lives
+pages_build_output_dir = "../out"
+
+# 🌐 Environment Variables
 [vars]
 BASE_RPC_URL = "https://mainnet.base.org"
 TRUSTCAT_EDGE = "https://stealth.trustcat.ai/api/stealth/init"
@@ -16,10 +21,11 @@ ENS_DOMAIN = "stealth.trustcat.eth"
 PROJECT_NAME = "TrustCat Stealth Ops"
 AI_OPS = "true"
 
+# 🔭 Observability
 [observability]
 enabled = true
 
-# Optional KV namespace for ops state / metrics
+# 💾 KV Namespace (Worker-level storage)
 [[kv_namespaces]]
 binding = "OPS_STATUS"
 id = "your_kv_namespace_id"
