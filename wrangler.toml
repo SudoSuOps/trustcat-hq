@@ -1,3 +1,13 @@
-name = "trustcat-hq"
-pages_build_output_dir = "out"
-compatibility_date = "2025-10-28"
+name = "stealth-ops"
+main = "src/index.ts"
+compatibility_date = "2025-10-29"
+workers_dev = false
+
+[vars]
+BASE_RPC_URL = "https://mainnet.base.org"
+TRUSTCAT_EDGE = "https://stealth.trustcat.ai/api/stealth/init"
+ENS_DOMAIN = "stealth.trustcat.eth"
+
+[[routes]]
+pattern = "stealth.trustcat.ai/*"
+zone_name = "trustcat.ai"
