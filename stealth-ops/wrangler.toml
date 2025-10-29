@@ -2,14 +2,14 @@ name = "stealth-ops"
 main = "src/index.ts"
 compatibility_date = "2025-10-29"
 workers_dev = false
+account_id = "6abec5e82728df0610a98be9364918e4"
 
-# 🧠 Cloudflare project mapping
-account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
-route = "stealth.trustcat.ai/*"
-zone_name = "trustcat.ai"
+# Route binding for your custom domain
+routes = [
+  { pattern = "stealth.trustcat.ai/*", zone_id = "69f5e20d2551fcb464a241f6b8e0715f" }
+]
 
 [vars]
-# environment variables accessible inside your Worker
 BASE_RPC_URL = "https://mainnet.base.org"
 TRUSTCAT_EDGE = "https://stealth.trustcat.ai/api/stealth/init"
 ENS_DOMAIN = "stealth.trustcat.eth"
@@ -19,7 +19,7 @@ AI_OPS = "true"
 [observability]
 enabled = true
 
-[kv_namespaces]
-bindings = [
-  { binding = "OPS_STATUS", id = "your_kv_namespace_id" }
-]
+# Optional KV namespace for ops state / metrics
+[[kv_namespaces]]
+binding = "OPS_STATUS"
+id = "your_kv_namespace_id"
