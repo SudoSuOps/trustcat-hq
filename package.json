@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
+    "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "next lint"
+    "export": "next export",
+    "deploy": "./deploy.sh"
   },
   "dependencies": {
     "@next/font": "^14.2.15",

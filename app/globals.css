@@ -1,3 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  background-color: #000;
+  color: #0f0; /* or #fff if you want neutral white text */
+  font-family: ui-monospace, monospace;
+}
+
+::selection {
+  background: #FFD700;
+  color: #000;
+}
+
+
 @keyframes caret {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
